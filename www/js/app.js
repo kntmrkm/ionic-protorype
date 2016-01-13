@@ -27,16 +27,23 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ng-token-auth', 'ipC
       StatusBar.styleDefault();
     }
 
-    // initialize
-    //API.getCSRFToken().then(function(res) {
-      //console.log('got CSRF TOKEN.');
-    //});
+    // initialize this does not work.
+    alert('initialize');
   });
 })
 
 .config(['$httpProvider', function($httpProvider) {
   $httpProvider.interceptors.push('httpRequestInterceptor');
 }])
+
+.config(function($authProvider) {
+  $authProvider.configure({
+    apiUrl: settings.host_api_v1,
+    authProviderPaths: {
+      facebook: '/auth/facebook'
+    }
+  })
+})
 
 .config(function($stateProvider, $urlRouterProvider) {
   // if none of the above states are matched, use this as the fallback
@@ -85,11 +92,27 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ng-token-auth', 'ipC
     templateUrl: 'templates/auth.html',
     controller: 'AuthCtrl as auth'
   })
-  .state('auth.default', {
-    url: '/default',
+  .state('auth.home', {
+    url: '/home',
     views: {
-      'menuContent': {
-        templateUrl: 'templates/auth/default.html'
+      'tabHome': {
+        templateUrl: 'templates/auth/home.html'
+      }
+    }
+  })
+  .state('auth.login', {
+    url: '/login',
+    views: {
+      'tabLogin': {
+        templateUrl: 'templates/auth/login.html'
+      }
+    }
+  })
+  .state('auth.test', {
+    url: '/test',
+    views: {
+      'tabTest': {
+        templateUrl: 'templates/auth/test.html'
       }
     }
   })

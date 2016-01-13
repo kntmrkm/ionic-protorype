@@ -8,6 +8,7 @@
         </button>
       </ion-nav-buttons>
     </ion-nav-bar>
+
     <ion-nav-view name="menuContent"></ion-nav-view>
   </ion-side-menu-content>
 
@@ -18,9 +19,16 @@
     <ion-content>
       <ion-list>
         <!-- <ion-item menu-close ng-click="login()"> -->
-        <ion-item menu-close href="#/auth/default">
+        <ion-item menu-close href="#/auth/home">
+          登録・ログイン
+        </ion-item>
+        <ion-item menu-close href="#/auth/login">
           ログイン
         </ion-item>
+        <ion-item menu-close href="#/auth/test">
+          AUTH/TEST
+        </ion-item>
+
         <ion-item menu-close href="#/app/home">
           ホーム
         </ion-item>

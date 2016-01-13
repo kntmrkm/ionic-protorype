@@ -1,6 +1,6 @@
 angular.module('starter.controllers', [])
 
-.controller('AppCtrl', function($rootScope, $state, $ionicModal, $timeout) {
+.controller('AppCtrl', function($rootScope, $scope, $state, $ionicModal, $timeout, $auth, API, Cookie) {
 
   // With the new view caching in Ionic, Controllers are only called
   // when they are recreated or on app start, instead of every page change.
@@ -29,10 +29,35 @@ angular.module('starter.controllers', [])
     });
   };
 
+  // Auth
+  this.validateUser = function() {
+    $auth.validateUser();
+  };
+  $scope.$on('auth:validation-success', function(ev, data) {
+    alert('signed in now!');
+  });
+  $scope.$on('auth:validation-error', function(ev, data) {
+    alert('not signed in now!');
+  });
+
   // Setting ==================================================================
   this.getProfile = function() {
 
 
   };
+
+  this.getCSRFToken = function() {
+    API.getCSRFToken().then(function(res) {
+      console.log('got CSRF TOKEN.');
+    });
+  };
+
+  this.showCSRFToken = function() {
+    Cookie.showCSRFToken();
+  };
+
+  this.getCSRFToken();
+  this.showCSRFToken();
+  //this.validateUser();
 })
 ;

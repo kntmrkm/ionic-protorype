@@ -3,11 +3,15 @@
     <h1>HOME</h1>
 
     <button class="button button-block button-positive" ng-click="app.openWebApp()">
-      Rails
+      Railsアプリ
     </button>
 
     <button class="button button-block button-positive" ng-click="app.loginProc()">
       Login
     </button>
+
+    <p>
+      {{ app.user.signedIn ? "true" : "false" }}
+    </p>
   </ion-content>
 </ion-view>
