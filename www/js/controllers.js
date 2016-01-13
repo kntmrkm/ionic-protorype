@@ -1,6 +1,6 @@
 angular.module('starter.controllers', [])
 
-.controller('AppCtrl', function($scope, $ionicModal, $timeout) {
+.controller('AppCtrl', function($rootScope, $state, $ionicModal, $timeout) {
 
   // With the new view caching in Ionic, Controllers are only called
   // when they are recreated or on app start, instead of every page change.
@@ -8,15 +8,18 @@ angular.module('starter.controllers', [])
   // listen for the $ionicView.enter event:
   //$scope.$on('$ionicView.enter', function(e) {
   //});
-  $scope.openWebApp = function() {
+
+  // Webview ==================================================================
+  this.openWebApp = function() {
     var encodedHref = encodeURIComponent(window.location.href);
     var appURL = host + '/relay_ios?' + [ 'apphome='+encodedHref, 'from=ios'].join('&');
     var ref = window.open(appURL, '_self', 'location=yes');
 
   };
 
-  $scope.loginProc = function() {
-    var ref = window.open(host + '/users/sign_in', '_blank', 'location=yes,clearcache=no');
+  this.loginProc = function() {
+    var ref = window.open(host + '/users/sign_in', '_blank', 'location=yes, clearcache=no');
+
     ref.addEventListener("loadstop", function(e) {
       // new RegExp(val, 'g')
       if(e.url.match(new RegExp('^' + host + '/profile', 'im'))) {
@@ -24,6 +27,12 @@ angular.module('starter.controllers', [])
         ref.close();
       }
     });
+  };
+
+  // Setting ==================================================================
+  this.getProfile = function() {
+
+
   };
 })
 ;

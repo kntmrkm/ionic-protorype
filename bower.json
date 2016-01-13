@@ -6,6 +6,10 @@
   },
   "dependencies": {
     "ngCordova": "*",
-    "ng-token-auth": "*"
+    "ng-token-auth": "*",
+    "angular-resource": "*",
+    "angular-restmod": "*",
+    "angular-touch": "*",
+    "angular-spinner": "*"
   }
 }
