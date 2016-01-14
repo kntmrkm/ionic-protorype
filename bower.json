@@ -2,15 +2,16 @@
   "name": "HelloIonic",
   "private": "true",
   "devDependencies": {
-    "ionic": "driftyco/ionic-bower#1.2.4"
+    "ionic": "1.2.3"
   },
   "dependencies": {
     "ngCordova": "*",
-    "ngstorage": "*",
-    "ng-token-auth": "*",
     "angular-resource": "*",
     "angular-restmod": "*",
     "angular-touch": "*",
     "angular-spinner": "*"
+  },
+  "resolutions": {
+    "angular": "1.4.8"
   }
 }

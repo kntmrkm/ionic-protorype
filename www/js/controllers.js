@@ -57,6 +57,11 @@ angular.module('starter.controllers', [])
     });
   };
 
+  // Test ==================================================================
+  this.checkStateGoFunction = function() {
+    $state.go('app/test');
+  };
+
   // etc ==================================================================
   // for ng-token-auth
 /*

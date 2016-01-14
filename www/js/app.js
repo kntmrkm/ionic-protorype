@@ -20,6 +20,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ipCookie', 'ngResour
     API.getCSRFToken();
     API.getAuthStatus();
 
+    /*
     $rootScope.$on('$stateChangeStart', function(e, toState, toParams, fromState, fromParams) {
       if (toState.isLoginRequired) {
         if (!authService.isLoggedIn()) {
@@ -29,6 +30,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ipCookie', 'ngResour
         }
       }
     });
+    */
 
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)

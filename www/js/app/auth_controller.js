@@ -44,7 +44,9 @@ angular.module('starter.controllers')
   };
 
   // Test ==================================================================
-  
+  this.checkStateGoFunction = function() {
+    $state.go('/auth/test');
+  };
 
   //this.doRegistration = function() {};
 
