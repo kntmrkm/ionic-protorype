@@ -12,10 +12,24 @@ var settings = {
   host_api_v1: host + '/api/v1'
 };
 
-angular.module('starter', ['ionic', 'starter.controllers', 'ng-token-auth', 'ipCookie'])
+angular.module('starter', ['ionic', 'starter.controllers', 'ipCookie', 'ngResource', 'restmod',
+  'ng-token-auth', 'ngStorage'])
 
-.run(function($ionicPlatform) {
-  $ionicPlatform.ready(function(API) {
+.run(function($rootScope, $state, $ionicPlatform, API, authService) {
+  $ionicPlatform.ready(function() {
+    API.getCSRFToken();
+    API.getAuthStatus();
+
+    $rootScope.$on('$stateChangeStart', function(e, toState, toParams, fromState, fromParams) {
+      if (toState.isLoginRequired) {
+        if (!authService.isLoggedIn()) {
+          alert('Login required');
+          $state.go('auth/home');
+          e.preventDefault(); // stop change state.
+        }
+      }
+    });
+
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
     if (window.cordova && window.cordova.plugins.Keyboard) {
@@ -27,6 +41,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ng-token-auth', 'ipC
       StatusBar.styleDefault();
     }
 
+    // browser の場合上記でエラーがでるため
     // initialize this does not work.
     alert('initialize');
   });
@@ -34,11 +49,15 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ng-token-auth', 'ipC
 
 .config(['$httpProvider', function($httpProvider) {
   $httpProvider.interceptors.push('httpRequestInterceptor');
+  // http://stackoverflow.com/questions/25345773/cors-issue-with-phonegap-angular-app-and-rails
+  //$httpProvider.defaults.useXDomain = true;
+  //delete $httpProvider.defaults.headers.common['X-Requested-With'];
 }])
 
 .config(function($authProvider) {
   $authProvider.configure({
     apiUrl: settings.host_api_v1,
+    storage: 'localStorage',
     authProviderPaths: {
       facebook: '/auth/facebook'
     }
@@ -47,7 +66,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ng-token-auth', 'ipC
 
 .config(function($stateProvider, $urlRouterProvider) {
   // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/app/home');
+  $urlRouterProvider.otherwise('/auth/home');
 
   $stateProvider
 
@@ -55,7 +74,8 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ng-token-auth', 'ipC
     url: '/app',
     abstract: true,
     templateUrl: 'templates/menu.html',
-    controller: 'AppCtrl as app'
+    controller: 'AppCtrl as app',
+    //isLoginRequired: true
   })
   .state('app.home', {
     url: '/home',
@@ -116,5 +136,5 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ng-token-auth', 'ipC
       }
     }
   })
-});
+})
 ;

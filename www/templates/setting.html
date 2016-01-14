@@ -1,9 +1,20 @@
 <ion-view view-title="Setting" ng-init="app.getProfile()">
-  <ion-content padding="true">
+  <ion-content>
     <ul class="list">
       <li class="item">
-        プロフィール設定
+        {{profile.name}}
       </li>
     </ul>
+    <form ng-submit="app.saveProfile()">
+      <div class="list">
+        <label class="item item-input">
+          <span class="input-label">Username</span>
+          <input type="text" ng-model="app.settingForm.name">
+        </label>
+        <label class="item">
+          <button class="button button-block button-positive" type="submit">更新</button>
+        </label>
+      </div>
+    </form>
   </ion-content>
 </ion-view>

@@ -1,6 +1,13 @@
 angular.module('starter.controllers', [])
 
-.controller('AppCtrl', function($rootScope, $scope, $state, $ionicModal, $timeout, $auth, API, Cookie) {
+.controller('AppCtrl', function($rootScope, $scope, $state, $ionicModal, $timeout, API, authService, Profile, Status) {
+  var _this = this;
+  var isLoggedIn = false;
+
+  authService.isLoggedIn();
+
+  // Data ==================================================================
+  this.profileForm = {};
 
   // With the new view caching in Ionic, Controllers are only called
   // when they are recreated or on app start, instead of every page change.
@@ -8,6 +15,27 @@ angular.module('starter.controllers', [])
   // listen for the $ionicView.enter event:
   //$scope.$on('$ionicView.enter', function(e) {
   //});
+
+  // Profile ===================================================================
+  this.getProfile = function() {
+    Profile.show(null, function(_profile) {
+      _this.profile = _profile;
+    });
+  };
+
+  this.saveProfile = function() {
+    Profile.update(_this.profileForm, function(_profile) {
+      _this.profile = _profile;
+    });
+  };
+
+  // Public   ==================================================================
+  this.getUsers = function() {
+    API.getUsers().then(function(res) {
+      //console.log(res.data[0].name);
+      _this.users = res.data;
+    });
+  };
 
   // Webview ==================================================================
   this.openWebApp = function() {
@@ -23,13 +51,15 @@ angular.module('starter.controllers', [])
     ref.addEventListener("loadstop", function(e) {
       // new RegExp(val, 'g')
       if(e.url.match(new RegExp('^' + host + '/profile', 'im'))) {
-        alert(e.url);
+        //alert(e.url);
         ref.close();
       }
     });
   };
 
-  // Auth
+  // etc ==================================================================
+  // for ng-token-auth
+/*
   this.validateUser = function() {
     $auth.validateUser();
   };
@@ -39,25 +69,8 @@ angular.module('starter.controllers', [])
   $scope.$on('auth:validation-error', function(ev, data) {
     alert('not signed in now!');
   });
-
-  // Setting ==================================================================
-  this.getProfile = function() {
-
-
-  };
-
-  this.getCSRFToken = function() {
-    API.getCSRFToken().then(function(res) {
-      console.log('got CSRF TOKEN.');
-    });
-  };
-
-  this.showCSRFToken = function() {
-    Cookie.showCSRFToken();
-  };
-
-  this.getCSRFToken();
-  this.showCSRFToken();
+*/
+  //this.getCSRFToken();
   //this.validateUser();
 })
 ;
