@@ -2,12 +2,13 @@
   "name": "HelloIonic",
   "private": "true",
   "devDependencies": {
-    "ionic": "1.2.3"
+    "ionic": "1.2.4"
   },
   "dependencies": {
     "ngCordova": "*",
     "angular-resource": "*",
     "angular-restmod": "*",
+    "angular-cookie": "*",
     "angular-touch": "*",
     "angular-spinner": "*"
   },

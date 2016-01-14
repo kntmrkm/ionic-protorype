@@ -12,25 +12,29 @@ var settings = {
   host_api_v1: host + '/api/v1'
 };
 
-angular.module('starter', ['ionic', 'starter.controllers', 'ipCookie', 'ngResource', 'restmod',
-  'ng-token-auth', 'ngStorage'])
-
-.run(function($rootScope, $state, $ionicPlatform, API, authService) {
+angular.module('starter', ['ionic', 'starter.controllers', 'ipCookie', 'ngResource', 'restmod'])
+.value(
+  'userStatus', {
+    'isLoggedIn': false
+  }
+)
+.run(function($rootScope, $state, $ionicPlatform, API, authService, userStatus) {
   $ionicPlatform.ready(function() {
+    // $rootScopeの変数として定義することで、viewからの呼び出しを可能に
+    $rootScope.userStatus = userStatus;
     API.getCSRFToken();
-    API.getAuthStatus();
 
-    /*
     $rootScope.$on('$stateChangeStart', function(e, toState, toParams, fromState, fromParams) {
+      API.getAuthStatus();
+
       if (toState.isLoginRequired) {
-        if (!authService.isLoggedIn()) {
+        if (!userStatus.isLoggedIn) {
           alert('Login required');
-          $state.go('auth/home');
+          //$state.go('auth.home');
           e.preventDefault(); // stop change state.
         }
       }
     });
-    */
 
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
@@ -56,16 +60,6 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ipCookie', 'ngResour
   //delete $httpProvider.defaults.headers.common['X-Requested-With'];
 }])
 
-.config(function($authProvider) {
-  $authProvider.configure({
-    apiUrl: settings.host_api_v1,
-    storage: 'localStorage',
-    authProviderPaths: {
-      facebook: '/auth/facebook'
-    }
-  })
-})
-
 .config(function($stateProvider, $urlRouterProvider) {
   // if none of the above states are matched, use this as the fallback
   $urlRouterProvider.otherwise('/auth/home');
@@ -77,10 +71,11 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ipCookie', 'ngResour
     abstract: true,
     templateUrl: 'templates/menu.html',
     controller: 'AppCtrl as app',
-    //isLoginRequired: true
+    isLoginRequired: true
   })
   .state('app.home', {
     url: '/home',
+    parent: 'app',
     views: {
       'menuContent': {
         templateUrl: 'templates/home.html'
@@ -89,6 +84,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ipCookie', 'ngResour
   })
   .state('app.setting', {
     url: '/setting',
+    parent: 'app',
     views: {
       'menuContent': {
         templateUrl: 'templates/setting.html'
@@ -97,6 +93,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ipCookie', 'ngResour
   })
   .state('app.test', {
     url: '/test',
+    parent: 'app',
     views: {
       'menuContent': {
         templateUrl: 'templates/test.html'
@@ -116,6 +113,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ipCookie', 'ngResour
   })
   .state('auth.home', {
     url: '/home',
+    parent: 'auth',
     views: {
       'tabHome': {
         templateUrl: 'templates/auth/home.html'
@@ -124,6 +122,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ipCookie', 'ngResour
   })
   .state('auth.login', {
     url: '/login',
+    parent: 'auth',
     views: {
       'tabLogin': {
         templateUrl: 'templates/auth/login.html'
@@ -132,6 +131,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ipCookie', 'ngResour
   })
   .state('auth.test', {
     url: '/test',
+    parent: 'auth',
     views: {
       'tabTest': {
         templateUrl: 'templates/auth/test.html'
@@ -139,4 +139,14 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ipCookie', 'ngResour
     }
   })
 })
+/*
+.config(function($authProvider) {
+  $authProvider.configure({
+    apiUrl: settings.host_api_v1,
+    storage: 'localStorage',
+    authProviderPaths: {
+      facebook: '/auth/facebook'
+    }
+  })
+})*/
 ;

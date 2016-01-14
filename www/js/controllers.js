@@ -1,10 +1,7 @@
 angular.module('starter.controllers', [])
 
-.controller('AppCtrl', function($rootScope, $scope, $state, $ionicModal, $timeout, API, authService, Profile, Status) {
+.controller('AppCtrl', function($rootScope, $scope, $state, $ionicModal, $timeout, API, authService, Profile, Status, userStatus) {
   var _this = this;
-  var isLoggedIn = false;
-
-  authService.isLoggedIn();
 
   // Data ==================================================================
   this.profileForm = {};
@@ -55,11 +52,6 @@ angular.module('starter.controllers', [])
         ref.close();
       }
     });
-  };
-
-  // Test ==================================================================
-  this.checkStateGoFunction = function() {
-    $state.go('app/test');
   };
 
   // etc ==================================================================

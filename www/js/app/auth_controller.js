@@ -1,10 +1,7 @@
 angular.module('starter.controllers')
 
-.controller('AuthCtrl', function($scope, $ionicModal, $timeout, $state, API, authService, Status) {
+.controller('AuthCtrl', function($scope, $ionicModal, $timeout, $state, API, authService, Status, userStatus) {
   var _this = this;
-  var isLoggedIn = false;
-
-  authService.isLoggedIn();
 
   // Data ==================================================================
   this.loginForm = {
@@ -22,8 +19,8 @@ angular.module('starter.controllers')
       .success(function(res) {
         alert('sign in successfully');
 
-        //_this.isLoggedIn = true;
-        $state.go('app/home');
+        userStatus.isLoggedIn = true;
+        $state.go('app.home');
       })
       .error(function(res) {
         console.log('sign in failure');
@@ -45,7 +42,7 @@ angular.module('starter.controllers')
 
   // Test ==================================================================
   this.checkStateGoFunction = function() {
-    $state.go('/auth/test');
+    $state.go('auth.test');
   };
 
   //this.doRegistration = function() {};

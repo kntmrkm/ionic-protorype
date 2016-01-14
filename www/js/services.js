@@ -21,7 +21,7 @@ angular.module('starter')
     return Profile;
   }];
 })
-.factory('API', function($http, ipCookie, $sessionStorage) {
+.factory('API', function($http, ipCookie, userStatus) {
   return {
     // Auth
     login: function(loginForm) {
@@ -33,6 +33,7 @@ angular.module('starter')
           //alert(data.api_token);
           ipCookie('API-TOKEN', data.api_token);
           ipCookie('SIGNED-IN', true);
+          userStatus.isLoggedIn = true;
         }).error(function (data, status, headers, config) {
           alert('wrong password or email.');
         });
@@ -43,6 +44,7 @@ angular.module('starter')
         .then(function (data, status, headers, config) {
           ipCookie('API-TOKEN', null);
           ipCookie('SIGNED-IN', false);
+          userStatus.isLoggedIn = false;
         });
       return res;
     },
@@ -52,15 +54,16 @@ angular.module('starter')
         .success(function (data, status, headers, config) {});
       return res;
     },
+    // for rails
     getAuthStatus: function() {
       var res = $http.get(settings.host_api + '/check_session')
         .then(function (data, status, headers, config) {
-
+          //alert(data.data.signed_in);
           ipCookie('SIGNED-IN', data.data.signed_in);
+          userStatus.isLoggedIn = true;
         });
       return res;
     },
-    // for rails
     getCSRFToken: function() {
       var res = $http.get(settings.host_api + '/csrf_token.json')
         .success(function (data, status, headers, config) {
@@ -68,7 +71,6 @@ angular.module('starter')
           ipCookie('CSRF-TOKEN', data.csrf_token);
 
           //alert('cookie: ' + ipCookie('CSRF-TOKEN'));
-          //alert('session: ' + $sessionStorage.csrf_token);
           console.log('got CSRF TOKEN.');
         });
       return res;
@@ -85,13 +87,13 @@ angular.module('starter')
   }
 })
 // 以下、検証用
-.factory('Status', function(ipCookie, $sessionStorage) {
+.factory('Status', function(ipCookie) {
   return {
     showCookie: function() {
       alert('cookie["CSRF-TOKEN"]:' + ipCookie('CSRF-TOKEN'));
     },
-    showSessionStorage: function() {
+    /*showSessionStorage: function() {
       alert('sessionStorage.csrf_token:' + $sessionStorage.csrf_token);
-    }
+    }*/
   }
 });

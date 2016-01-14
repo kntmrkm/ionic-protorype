@@ -9,16 +9,12 @@
       ********
     </p>
 
-    <button class="button button-block button-positive" ui-sref="app.home" ng-show="auth.isLoggedIn">
+    <button class="button button-block button-positive" ui-sref="app.home" ng-show="userStatus.isLoggedIn">
       HOME
     </button>
 
     <button class="button button-block button-positive" ui-sref="app.home">
       HOME
-    </button>
-
-    <button class="button button-block button-positive" ng-click="auth.checkStateGoFunction()">
-      check state.go to 'auth.test'
     </button>
   </ion-content>
 </ion-view>
