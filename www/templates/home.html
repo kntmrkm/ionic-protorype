@@ -2,12 +2,20 @@
   <ion-content padding="true">
     <h1>HOME</h1>
 
-    <button class="button button-block button-positive" ng-click="app.openWebApp()">
-      Railsアプリ
-    </button>
+    <div ng-show="isLoggedIn">
+      <button class="button button-block button-positive" ng-click="app.openWebApp()">
+        Railsアプリ
+      </button>
 
-    <button class="button button-block button-positive" ng-click="app.loginProc()">
-      Login
-    </button>
+      <button class="button button-block button-positive" ng-click="app.loginProc()">
+        外部ログイン
+      </button>
+    </div>
+
+    <div ng-hide="isLoggedIn">
+      <button class="button button-block button-positive" ui-sref="auth.home">
+        ログイン
+      </button>
+    </div>
   </ion-content>
 </ion-view>

@@ -1,9 +1,10 @@
 angular.module('starter.controllers', [])
 
-.controller('AppCtrl', function($rootScope, $scope, $state, $ionicModal, $timeout, API, authService, Profile, Status, userStatus) {
+.controller('AppCtrl', function($rootScope, $scope, $state, $ionicModal, $timeout, API) {
   var _this = this;
 
   // Data ==================================================================
+  this.profile = {};
   this.profileForm = {};
 
   // With the new view caching in Ionic, Controllers are only called
@@ -12,17 +13,23 @@ angular.module('starter.controllers', [])
   // listen for the $ionicView.enter event:
   //$scope.$on('$ionicView.enter', function(e) {
   //});
+  
+  // Auth ==================================================================
+  this.doLogout = function() {
+    API.logout();
+  };
 
   // Profile ===================================================================
   this.getProfile = function() {
-    Profile.show(null, function(_profile) {
-      _this.profile = _profile;
+    API.getProfile().then(function(res) {
+      _this.profile = res.data;
+      _this.profileForm = res.data;
     });
   };
 
   this.saveProfile = function() {
-    Profile.update(_this.profileForm, function(_profile) {
-      _this.profile = _profile;
+    API.updateProfile(_this.profileForm).then(function(res) {
+      _this.profile = _this.profileForm;
     });
   };
 

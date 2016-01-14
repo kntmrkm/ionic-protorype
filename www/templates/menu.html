@@ -19,18 +19,21 @@
     <ion-content>
       <ion-list>
         <!-- <ion-item menu-close ng-click="login()"> -->
-        <ion-item menu-close href="#/auth/home" ng-hide="userStatus.isLoggedIn">
+        <ion-item menu-close href="#/auth/home" ng-hide="isLoggedIn">
           登録・ログイン
         </ion-item>
 
-        <ion-item menu-close href="#/app/home" ng-show="userStatus.isLoggedIn">
+        <ion-item menu-close href="#/app/home" ng-show="isLoggedIn">
           ホーム
         </ion-item>
-        <ion-item menu-close href="#/app/setting" ng-show="userStatus.isLoggedIn">
+        <ion-item menu-close href="#/app/setting" ng-show="isLoggedIn">
           設定
         </ion-item>
-        <ion-item menu-close href="#/app/test" ng-show="userStatus.isLoggedIn">
+        <ion-item menu-close href="#/app/test" ng-show="isLoggedIn">
           TEST
+        </ion-item>
+        <ion-item menu-close ng-show="isLoggedIn">
+          <div style="z-index: 1000;" ng-click="app.doLogout()">ログアウト</div>  
         </ion-item>
       </ion-list>
     </ion-content>

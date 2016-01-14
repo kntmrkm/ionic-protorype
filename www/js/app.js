@@ -13,22 +13,21 @@ var settings = {
 };
 
 angular.module('starter', ['ionic', 'starter.controllers', 'ipCookie', 'ngResource', 'restmod'])
-.value(
+/*.value(
   'userStatus', {
     'isLoggedIn': false
   }
-)
-.run(function($rootScope, $state, $ionicPlatform, API, authService, userStatus) {
+)*/
+.run(function($rootScope, $state, $ionicPlatform, API, authService) {
   $ionicPlatform.ready(function() {
     // $rootScopeの変数として定義することで、viewからの呼び出しを可能に
-    $rootScope.userStatus = userStatus;
+    $rootScope.isLoggedIn = false;
     API.getCSRFToken();
+    API.getAuthStatus();
 
     $rootScope.$on('$stateChangeStart', function(e, toState, toParams, fromState, fromParams) {
-      API.getAuthStatus();
-
       if (toState.isLoginRequired) {
-        if (!userStatus.isLoggedIn) {
+        if (!$rootScope.isLoggedIn) {
           alert('Login required');
           //$state.go('auth.home');
           e.preventDefault(); // stop change state.
@@ -62,7 +61,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ipCookie', 'ngResour
 
 .config(function($stateProvider, $urlRouterProvider) {
   // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/auth/home');
+  $urlRouterProvider.otherwise('/app/home');
 
   $stateProvider
 
@@ -70,12 +69,12 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ipCookie', 'ngResour
     url: '/app',
     abstract: true,
     templateUrl: 'templates/menu.html',
-    controller: 'AppCtrl as app',
-    isLoginRequired: true
+    controller: 'AppCtrl as app'
   })
   .state('app.home', {
     url: '/home',
     parent: 'app',
+    isLoginRequired: false,
     views: {
       'menuContent': {
         templateUrl: 'templates/home.html'
@@ -85,6 +84,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ipCookie', 'ngResour
   .state('app.setting', {
     url: '/setting',
     parent: 'app',
+    isLoginRequired: true,
     views: {
       'menuContent': {
         templateUrl: 'templates/setting.html'

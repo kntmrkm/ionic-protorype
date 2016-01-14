@@ -9,12 +9,16 @@
       ********
     </p>
 
-    <button class="button button-block button-positive" ui-sref="app.home" ng-show="userStatus.isLoggedIn">
+    <button class="button button-block button-positive" ui-sref="app.home" ng-show="isLoggedIn">
       HOME
     </button>
 
-    <button class="button button-block button-positive" ui-sref="app.home">
-      HOME
+    <button class="button button-block button-positive" ui-sref="auth.login" ng-hide="isLoggedIn">
+      ログイン
+    </button>
+
+    <button class="button button-block button-positive" ui-sref="app.test">
+      app.test
     </button>
   </ion-content>
 </ion-view>

@@ -1,6 +1,6 @@
 angular.module('starter.controllers')
 
-.controller('AuthCtrl', function($scope, $ionicModal, $timeout, $state, API, authService, Status, userStatus) {
+.controller('AuthCtrl', function($rootScope, $scope, $ionicModal, $timeout, $state, API) {
   var _this = this;
 
   // Data ==================================================================
@@ -19,13 +19,12 @@ angular.module('starter.controllers')
       .success(function(res) {
         alert('sign in successfully');
 
-        userStatus.isLoggedIn = true;
+        $rootScope.isLoggedIn = true;
         $state.go('app.home');
       })
       .error(function(res) {
         console.log('sign in failure');
       });
-
 
     // Simulate a login delay. Remove this and replace with your login
     // code if using a login system
@@ -34,10 +33,6 @@ angular.module('starter.controllers')
       this.closeLogin();
     }, 1000);
     */
-  };
-
-  this.doLogout = function() {
-    API.logout();
   };
 
   // Test ==================================================================

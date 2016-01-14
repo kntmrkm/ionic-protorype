@@ -5,10 +5,10 @@ angular.module('starter')
     return ipCookie('SIGNED-IN');
   };
 })
-.provider('Profile', function() {
+.provider('Post', function() {
   this.$get = ['$resource', function($resource) {
     //var Profile = $resource('/api/v1/profile', { id: '@id' }, {
-    var Profile = $resource(settings.host_api_v1 + '/profile', { }, {
+    /*var Profile = $resource(settings.host_api_v1 + '/profile', { }, {
         show: { method: 'GET', url: settings.host_api_v1 + '/profile' },
         update: { method: 'PATCH', url: settings.host_api_v1 + '/profile' }
       }
@@ -18,11 +18,36 @@ angular.module('starter')
 
     };
 
-    return Profile;
+    return Profile;*/
   }];
 })
-.factory('API', function($http, ipCookie, userStatus) {
+.factory('API', function($rootScope, $http, $state, ipCookie) {
   return {
+    // Profile
+    getProfile: function() {
+      var res = $http.get(settings.host_api_v1 + '/profile')
+        .success(function (data, status, headers, config) {
+
+        })
+        .error(function (data, status, headers, config) {
+          $state.go('auth.home');
+        });
+      return res;
+    },
+    updateProfile: function(profileForm) {
+      var res = $http.patch(settings.host_api_v1 + '/profile',
+        { user: {
+            name: profileForm.name
+        }})
+        .success(function (data, status, headers, config) {
+          alert('profile updated.');
+        })
+        .error(function (data, status, headers, config) {
+          alert('profile update failure. ' + status);
+          if (status == 401) $state.go('auth.home');
+        });
+      return res;
+    },
     // Auth
     login: function(loginForm) {
       var res = $http.post(settings.host_api + '/users/sign_in',
@@ -33,7 +58,7 @@ angular.module('starter')
           //alert(data.api_token);
           ipCookie('API-TOKEN', data.api_token);
           ipCookie('SIGNED-IN', true);
-          userStatus.isLoggedIn = true;
+          $rootScope.isLoggedIn = true;
         }).error(function (data, status, headers, config) {
           alert('wrong password or email.');
         });
@@ -41,10 +66,15 @@ angular.module('starter')
     },
     logout: function() {
       var res = $http.delete(settings.host_api + '/users/sign_out')
-        .then(function (data, status, headers, config) {
+        .success(function (data, status, headers, config) {
           ipCookie('API-TOKEN', null);
           ipCookie('SIGNED-IN', false);
-          userStatus.isLoggedIn = false;
+          $rootScope.isLoggedIn = false;
+
+          $state.go('auth.home');
+        })
+        .error(function (data, status, headers, config) {
+          alert('logout error.');
         });
       return res;
     },
@@ -60,7 +90,7 @@ angular.module('starter')
         .then(function (data, status, headers, config) {
           //alert(data.data.signed_in);
           ipCookie('SIGNED-IN', data.data.signed_in);
-          userStatus.isLoggedIn = true;
+          $rootScope.isLoggedIn = data.data.signed_in;
         });
       return res;
     },
