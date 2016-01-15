@@ -6,7 +6,7 @@
   },
   "dependencies": {
     "ngCordova": "*",
-    "ngStorage": "*",
+    "ngstorage": "*",
     "angular-resource": "*",
     "angular-restmod": "*",
     "angular-cookie": "*",

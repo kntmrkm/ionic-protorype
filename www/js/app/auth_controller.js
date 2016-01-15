@@ -1,6 +1,6 @@
 angular.module('starter.controllers')
 
-.controller('AuthCtrl', function($rootScope, $scope, $ionicModal, $timeout, $state, API) {
+.controller('AuthCtrl', function($rootScope, $scope, $ionicModal, $timeout, $state, API, $cordovaFacebook) {
   var _this = this;
 
   // Data ==================================================================
@@ -9,6 +9,28 @@ angular.module('starter.controllers')
     password: 'user@example.com'
   };
   //this.registrationForm = {};
+
+  // Facebook ==================================================================
+  _this.loginWithFacebook = function () {
+    $cordovaFacebook.login(['public_profile', 'email']).then(function(response) {
+
+      return $cordovaFacebook.api('me', ['public_profile']);
+    }).then(function(response) {
+
+    }).catch(function(cause) {
+
+    });
+  };
+
+  /*
+  _this.logout = function () {
+    $cordovaFacebook.logout().then(function(response) {
+
+    }).catch(function(cause) {
+
+    });
+  };
+  */
 
   // Auth ==================================================================
   // Perform the login action when the user submits the login form
