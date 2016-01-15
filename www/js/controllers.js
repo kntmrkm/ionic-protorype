@@ -14,11 +14,6 @@ angular.module('starter.controllers', [])
   //$scope.$on('$ionicView.enter', function(e) {
   //});
   
-  // Auth ==================================================================
-  this.doLogout = function() {
-    API.logout();
-  };
-
   // Profile ===================================================================
   this.getProfile = function() {
     API.getProfile().then(function(res) {

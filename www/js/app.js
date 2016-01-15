@@ -22,6 +22,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngCordova', 'ngStora
   $ionicPlatform.ready(function() {
     // $rootScopeの変数として定義することで、viewからの呼び出しを可能に
     $rootScope.isLoggedIn = false;
+    $rootScope.isLoggedInWithFacebook = false;
     API.getCSRFToken();
     API.getAuthStatus();
 
@@ -129,14 +130,11 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngCordova', 'ngStora
       }
     }
   })
-  .state('auth.test', {
-    url: '/test',
+  .state('auth.logout', {
+    //cache: false,
+    url: '/logout',
     parent: 'auth',
-    views: {
-      'tabTest': {
-        templateUrl: 'templates/auth/test.html'
-      }
-    }
+    templateUrl: 'templates/auth/logout.html'
   })
 })
 /*

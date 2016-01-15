@@ -6,6 +6,16 @@
     </div>
   </ion-header-bar>
   <ion-content>
+    <div class="list">
+      <label class="item">
+        <button class="button button-block button-positive" ng-click="auth.facebookSignIn()" ng-hide="isLoggedIn">
+          Facebook ログイン
+        </button>
+      </label>
+    </div>
+
+    <p style="text-align: center;">or</p>
+
     <form ng-submit="auth.doLogin()">
       <div class="list">
         <label class="item item-input">

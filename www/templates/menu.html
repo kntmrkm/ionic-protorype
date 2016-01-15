@@ -32,9 +32,10 @@
         <ion-item menu-close href="#/app/test" ng-show="isLoggedIn">
           TEST
         </ion-item>
-        <ion-item menu-close ng-show="isLoggedIn">
+        <ion-item menu-close href="#/auth/logout" ng-show="isLoggedIn">
           <!-- http://stackoverflow.com/questions/31022889/how-to-detect-clicks-on-an-element-inside-an-ion-item -->
-          <div style="z-index: 1000;" ng-click="app.doLogout()">ログアウト</div>
+          <!-- <div style="z-index: 1000;" ng-click="app.doLogout()">ログアウト</div> -->
+          ログアウト
         </ion-item>
       </ion-list>
     </ion-content>
