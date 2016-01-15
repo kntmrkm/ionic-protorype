@@ -12,7 +12,7 @@ var settings = {
   host_api_v1: host + '/api/v1'
 };
 
-angular.module('starter', ['ionic', 'starter.controllers', 'ipCookie', 'ngResource', 'restmod'])
+angular.module('starter', ['ionic', 'starter.controllers', 'ngStorage', 'ipCookie', 'ngResource', 'restmod'])
 /*.value(
   'userStatus', {
     'isLoggedIn': false
