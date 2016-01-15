@@ -57,33 +57,35 @@ angular.module('starter')
       return res;
     },
     // Auth
-    login: function(loginForm) {
-      var res = $http.post(settings.host_api + '/users/sign_in',
-        { user: {
-            email: loginForm.email,
-            password: loginForm.password
-        }}).success(function (data, status, headers, config) {
-          //alert(data.api_token);
-          ipCookie('API-TOKEN', data.api_token);
-          ipCookie('SIGNED-IN', true);
-          $rootScope.isLoggedIn = true;
-        }).error(function (data, status, headers, config) {
-          alert('wrong password or email.');
-        });
-      return res;
-    },
     loginWithProvider: function(user, provider) {
-      var res = $http.post(settings.host_api + '/users/sign_in_with_provider',
-        { user: {
-            email: user.email,
-            access_token: user.accessToken
-        }}).success(function (data, status, headers, config) {
+      var res = $http.post(settings.host_api + '/sign_in_with_provider',
+          { user: user,
+            provider: provider
+          }
+        ).success(function (data, status, headers, config) {
           //alert(data.api_token);
           ipCookie('API-TOKEN', data.api_token);
           ipCookie('SIGNED-IN', true);
           $rootScope.isLoggedIn = true;
         }).error(function (data, status, headers, config) {
           alert('failed signed in with provider.');
+        });
+      return res;
+    },
+    login: function(loginForm) {
+      var res = $http.post(settings.host_api + '/users/sign_in',
+          { user: {
+              email: loginForm.email,
+              password: loginForm.password
+            }
+          }
+        ).success(function (data, status, headers, config) {
+          //alert(data.api_token);
+          ipCookie('API-TOKEN', data.api_token);
+          ipCookie('SIGNED-IN', true);
+          $rootScope.isLoggedIn = true;
+        }).error(function (data, status, headers, config) {
+          alert('wrong password or email.');
         });
       return res;
     },

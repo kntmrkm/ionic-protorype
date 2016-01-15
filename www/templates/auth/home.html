@@ -17,7 +17,7 @@
       ログイン
     </button>
 
-    <button class="button button-block button-positive" ng-click="auth.facebookSignIn()" ng-hide="isLoggedInWithFacebook">
+    <button class="button button-block button-positive" ng-click="auth.facebookSignIn()" ng-show="isLoggedIn && !isLoggedInWithFacebook">
       Facebook 連携
     </button>
 

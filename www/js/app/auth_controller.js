@@ -19,7 +19,7 @@ angular.module('starter.controllers')
   //this.registrationForm = {};
 
   // Facebook ==================================================================
-  _this.loginWithFacebook = function () {
+  /*_this.loginWithFacebook = function () {
     $cordovaFacebook.login(['public_profile', 'email']).then(function(response) {
 
       return $cordovaFacebook.api('me', ['public_profile']);
@@ -28,7 +28,7 @@ angular.module('starter.controllers')
     }).catch(function(cause) {
 
     });
-  };
+  };*/
 
   var setToAuthService = function(authResponse, profileInfo) {
     authService.setUser({
@@ -53,9 +53,12 @@ angular.module('starter.controllers')
       .then(function(profileInfo) {
         // For the purpose of this example I will store user data on local storage
         setToAuthService(authResponse, profileInfo)
+        var user = authService.getUser('facebook');
 
-        $rootScope.isLoggedInWithFacebook = true;
-        $state.go('app.home');
+        API.loginWithProvider(user, 'facebook').then(function() {
+          $rootScope.isLoggedInWithFacebook = true;
+          $state.go('app.home');
+        });
       }, function(fail){
         // Fail get profile info
         console.log('profile info fail', fail);
@@ -103,13 +106,19 @@ angular.module('starter.controllers')
             // For the purpose of this example I will store user data on local storage
             setToAuthService(success.authResponse, profileInfo)
 
-            $state.go('app.home');
+            API.loginWithProvider(user, 'facebook').then(function() {
+              $rootScope.isLoggedInWithFacebook = true;
+              $state.go('app.home');
+            });
           }, function(fail){
             // Fail get profile info
             console.log('profile info fail', fail);
           });
         } else {
-          $state.go('app.home');
+          API.loginWithProvider(user, 'facebook').then(function() {
+            $rootScope.isLoggedInWithFacebook = true;
+            $state.go('app.home');
+          });
         }
 
       } else {

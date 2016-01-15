@@ -5,8 +5,8 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.controllers' is found in controllers.js
 
-var host = 'http://lvh.me:3000';
-//var host = 'https://cordova-rails.herokuapp.com';
+//var host = 'http://lvh.me:3000';
+var host = 'https://cordova-rails.herokuapp.com';
 var settings = {
   host_api:    host + '/api',
   host_api_v1: host + '/api/v1'
@@ -23,6 +23,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngCordova', 'ngStora
     // $rootScopeの変数として定義することで、viewからの呼び出しを可能に
     $rootScope.isLoggedIn = false;
     $rootScope.isLoggedInWithFacebook = false;
+    
     API.getCSRFToken();
     API.getAuthStatus();
 
